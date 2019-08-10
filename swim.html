@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="initial-scale=1.0, user-scalable=no, width=device-width" name="viewport">
+    <title>ly</title>
+    <link href="css/index.css" rel="stylesheet" type="text/css">
+    <link href="css/iconfont.css" rel="stylesheet"/>
+    <style>
+        ul.imgbox {
+            background-color: white;
+            padding: 5px;
+            position: absolute;
+            left: 10px;
+            bottom: 10px;
+        }
+
+        ul.imgbox img {
+            width: 17px;
+            height: 22px;
+        }
+    </style>
+</head>
+<body>
+<div id="container" tabindex="0"></div>
+<ul class="imgbox">
+    <li><input checked id="check1" type="checkbox"/> <img alt="市体育行政部门直属场馆池" src="img/1.png"/> <label for="check1">市体育行政部门直属场馆池</label>
+    </li>
+    <li><input checked id="check2" type="checkbox"/> <img alt="区体育行政部门直属场馆池" src="img/2.png"/> <label for="check2">区体育行政部门直属场馆池</label>
+    </li>
+    <li><input checked id="check3" type="checkbox"/> <img alt="大型游泳池（沙滩、水上乐园等）" src="img/3.png"/> <label for="check3">大型游泳池（沙滩、水上乐园等）</label>
+    </li>
+    <li><input checked id="check4" type="checkbox"/> <img alt="学校游泳池" src="img/4.png"/> <label
+            for="check4">学校游泳池</label></li>
+    <li><input checked id="check5" type="checkbox"/> <img alt="宾馆游泳池" src="img/5.png"/> <label
+            for="check5">宾馆游泳池</label></li>
+    <li><input checked id="check6" type="checkbox"/> <img alt="度假村游泳池" src="img/6.png"/> <label
+            for="check6">度假村游泳池</label></li>
+    <li><input checked id="check7" type="checkbox"/> <img alt="社区游泳池" src="img/7.png"/> <label
+            for="check7">社区游泳池</label></li>
+    <li><input checked id="check8" type="checkbox"/> <img alt="健身会所游泳池" src="img/8.png"/> <label
+            for="check8">健身会所游泳池</label></li>
+    <li><input checked id="check9" type="checkbox"/> <img alt="其他游泳池" src="img/9.png"/> <label
+            for="check9">其他游泳池</label></li>
+</ul>
+<script src='https://webapi.amap.com/maps?v=1.4.15&key=73a7c2cd94982ec6d538dbece3752d8e&plugin=AMap.CloudDataSearch'
+        type="text/javascript"></script>
+<script src="js/jquery-1.12.4.min.js" type="text/javascript"></script>
+<script src="js/swim_url.js" type="text/javascript"></script>
+<script type="text/javascript">
+    let map = new AMap.Map('container', {
+        mapStyle: 'amap://styles/whitesmoke'
+    });
+    new AMap.Marker({
+        map: map,
+        position: new AMap.LngLat(121.593086, 31.083332),
+        offset: new AMap.Pixel(-12, -12),
+        icon: new AMap.Icon({
+            size: new AMap.Size(24, 24),
+            imageOffset: new AMap.Pixel(-24, 0),
+            image: "icon-normal-small.png"
+        }),
+        clickable: false,
+        bubble: true
+    });
+    // tableid = 5d3f1df27bbf191609284be8
+    let typeEmu = [
+        "市体育行政部门直属场馆池",
+        "区体育行政部门直属场馆池",
+        "大型游泳池（沙滩、水上乐园等）",
+        "学校游泳池",
+        "宾馆游泳池",
+        "度假村游泳池",
+        "社区游泳池",
+        "健身会所游泳池",
+        "其他游泳池"
+    ];
+    let style = [
+        {
+            url: 'img/1.png',
+            anchor: new AMap.Pixel(9, 22),
+            size: new AMap.Size(17, 22)
+        }, {
+            url: 'img/1.png',
+            anchor: new AMap.Pixel(9, 22),
+            size: new AMap.Size(17, 22)
+        }, {
+            url: 'img/2.png',
+            anchor: new AMap.Pixel(9, 22),
+            size: new AMap.Size(17, 22)
+        }, {
+            url: 'img/3.png',
+            anchor: new AMap.Pixel(9, 22),
+            size: new AMap.Size(17, 22)
+        }, {
+            url: 'img/4.png',
+            anchor: new AMap.Pixel(9, 22),
+            size: new AMap.Size(17, 22)
+        }, {
+            url: 'img/5.png',
+            anchor: new AMap.Pixel(9, 22),
+            size: new AMap.Size(17, 22)
+        }, {
+            url: 'img/6.png',
+            anchor: new AMap.Pixel(9, 22),
+            size: new AMap.Size(17, 22)
+        }, {
+            url: 'img/7.png',
+            anchor: new AMap.Pixel(9, 22),
+            size: new AMap.Size(17, 22)
+        }, {
+            url: 'img/8.png',
+            anchor: new AMap.Pixel(9, 22),
+            size: new AMap.Size(17, 22)
+        }, {
+            url: 'img/9.png',
+            anchor: new AMap.Pixel(9, 22),
+            size: new AMap.Size(17, 22)
+        }
+    ];
+
+    let massMarks = new AMap.MassMarks(swims, {
+        zIndex: 111,
+        style: style
+    });
+    massMarks.setMap(map);
+
+    let marker = new AMap.Marker({content: ' ', map: map, zIndex: 150});
+    let infoWindow = new AMap.InfoWindow({
+        closeWhenClickMap: true,
+        content: ''
+    });
+
+    let offset2 = new AMap.Pixel(0, -15);
+    massMarks.on('mouseover', function (e) {
+        marker.setPosition(e.data.lnglat);
+        marker.setLabel({offset: offset2, content: e.data.name + '&nbsp;' + (typeEmu[(e.data.style - 1)])});
+    });
+
+    let search = new AMap.CloudDataSearch('5d3f1df27bbf191609284be8');
+    massMarks.on('click', function (e) {
+        search.searchById(e.data.id, function (status, result) {
+            console.log(status, result);
+            if (status === 'complete' && result.info === 'OK') {
+                let datas = result.datas[0];
+                let content = [];
+                content.push("<h5>" + datas._name + "</h5>");
+                if (datas.spAvatar) {
+                    content.push('<img src="' + datas.spAvatar + '" width="210" height="106" alt="" />');
+                }
+                content.push("<p>" + datas._address + "</p>");
+                content.push("<p>" + typeEmu[(e.data.style - 1)] + "</p>");
+                content.push("<p>" + datas.telephone + "</p>");
+                content.push("<p>" + datas.remark + "</p>");
+                content.push("<p>" + datas.openObject + "</p>");
+                content.push("<p>泳池面积: " + datas.waterAcreage + "</p>");
+                infoWindow.setContent(content.join(""));
+                infoWindow.open(map, datas._location);
+            }
+
+        });
+    });
+    $("ul.imgbox input").on("change", function () {
+        let idx = $("ul.imgbox li").index($(this).parent()) + 1;
+        let ischecked = $(this).is(":checked");
+        let style = massMarks.getStyle();
+        if (ischecked) {
+            style[idx].anchor = new AMap.Pixel(9, 22);
+            style[idx].size = new AMap.Size(17, 22);
+        } else {
+            style[idx].anchor = new AMap.Pixel(3, 6);
+            style[idx].size = new AMap.Size(5, 6);
+        }
+        massMarks.setStyle(style);
+    });
+
+</script>
+</body>
+</html>
