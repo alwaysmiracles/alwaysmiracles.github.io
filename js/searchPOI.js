@@ -32,14 +32,16 @@ function onLoad(){
         console.log("[onLoad]", "map complete");
 //        return;
         AMap.plugin(["AMap.DistrictSearch", "AMap.PlaceSearch"], function(){
+            console.log("plugin complete");
             let districtSearch = new AMap.DistrictSearch({
                 showbiz: false,
                 extensions: "all",
                 subdistrict: 0
             });
             districtSearch.search(searchInfo.city, function(status, result){
+                console.log("districtSearch.search result", result);
                 if(status==="complete" && result.info==="OK"){
- //                   console.log("districtSearch.search result", result);
+
                     searchInfo.districtInfo = result.districtList[0];
 
  //                   let overlayGroup = new AMap.OverlayGroup();
@@ -61,13 +63,14 @@ function onLoad(){
 }
 
 function getBoundsPagePoi_promise(bounds, page){
+    new AMap.Rectangle({
+        map: searchInfo.map,
+        bounds: bounds,
+        strokeWeight: 1,
+        fillOpacity: 0
+    }); //画边界矩形
     return new Promise(function(resolve, reject){
-        new AMap.Rectangle({
-            map: searchInfo.map,
-            bounds: bounds,
-            strokeWeight: 1,
-            fillOpacity: 0
-        }); //画边界矩形
+
 
         
     })
