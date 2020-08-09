@@ -55,7 +55,7 @@ function onLoad(){
  //                   overlayGroup.hide();
 
                     searchInfo.bounds = getDistrictBounds(result.districtList[0]);//885
-                    getBoundsPagePoi(searchInfo.bounds, 1);
+                    //getBoundsPagePoi(searchInfo.bounds, 1);
                 }
             });
         });
